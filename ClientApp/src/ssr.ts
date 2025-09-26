@@ -1,21 +1,19 @@
-import { resolvePageComponent } from '@inertiacore/vite-plugin/inertia-helpers';
-import { createInertiaApp } from '@inertiajs/vue3';
-import createServer from '@inertiajs/vue3/server';
-import { renderToString } from '@vue/server-renderer';
-import { createSSRApp, DefineComponent, h } from 'vue';
-import './App.css';
+import type { Page } from '@inertiajs/core';
+import { createInertiaApp } from '@inertiajs/svelte';
+import createServer from '@inertiajs/svelte/server';
+import { render } from 'svelte/server';
 
-createServer((page) =>
+createServer((page: Page) =>
     createInertiaApp({
         page,
-        render: renderToString,
-        resolve: (name) =>
-            resolvePageComponent(
-                `./Pages/${name}.vue`,
-                import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
-            ),
-        setup({ App, props, plugin }) {
-            return createSSRApp({ render: () => h(App, props) }).use(plugin);
+        resolve: (name) => {
+            const pages = import.meta.glob('./Pages/**/*.svelte', {
+                eager: true,
+            });
+            return pages[`./Pages/${name}.svelte`] as any;
+        },
+        setup({ App, props }) {
+            return render(App, { props });
         },
     }),
 );

@@ -4,7 +4,7 @@
         "target": "esnext",
         "module": "esnext",
         "noEmit": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "rootDir": "./src",
         "strict": true,
         "esModuleInterop": true,
@@ -13,6 +13,6 @@
         "paths": {
             "@/*": ["./src/*"]
         },
-        "types": ["vite/client", "@vue/runtime-core"]
+        "types": ["vite/client"]
     }
 }

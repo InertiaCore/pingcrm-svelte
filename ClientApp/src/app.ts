@@ -1,20 +1,14 @@
-import { resolvePageComponent } from '@inertiacore/vite-plugin/inertia-helpers';
-import { createInertiaApp } from '@inertiajs/vue3';
-import { createApp, DefineComponent, h } from 'vue';
-import './css/app.css';
+import { createInertiaApp } from '@inertiajs/svelte';
+import { mount } from 'svelte';
+import './App.css';
 
 createInertiaApp({
-    resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.vue`,
-            import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
-        ),
-    title: (title) => (title ? `${title} - Ping CRM` : 'Ping CRM'),
-    setup({ el, App, props, plugin }) {
-        const app = createApp({
-            render: () => h(App, props),
-        });
-        app.config.globalProperties.window = window;
-        app.use(plugin).mount(el);
+    resolve: (name) => {
+        const pages = import.meta.glob('./Pages/**/*.svelte', { eager: true });
+        return pages[`./Pages/${name}.svelte`] as any;
+    },
+    setup({ el, App, props }) {
+        if (!el) return;
+        mount(App, { target: el, props });
     },
 });

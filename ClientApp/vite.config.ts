@@ -1,23 +1,16 @@
-import inertiacore from '@inertiacore/vite-plugin';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
-import vue from '@vitejs/plugin-vue';
+import inertiacore from '@inertiacore/vite-plugin';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
     plugins: [
         tailwindcss(),
         inertiacore({
-            input: ['src/app.ts'],
+            input: ['src/App.ts'],
             refresh: true,
         }),
-        vue({
-            template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
-            },
-        }),
+        svelte(),
     ],
     resolve: {
         alias: {
