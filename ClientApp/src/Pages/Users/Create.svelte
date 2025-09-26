@@ -9,7 +9,6 @@
     import FileInput from '@/Shared/FileInput.svelte';
     import { toFormData } from '@/utils';
 
-    const route = window.route;
 
     $: errors = $page?.errors || {};
 
@@ -45,7 +44,7 @@
         // for more info check utils.js
         const formData = toFormData(values);
 
-        router.post(route('users.store'), formData).then(() =>  sending = false);
+        router.post('/users', formData).then(() =>  sending = false);
     }
 </script>
 
@@ -56,7 +55,7 @@
         <div>
             <h1 class="mb-8 font-bold text-3xl">
                 <Link
-                    href={route('users')}
+                    href="/users"
                     class="text-indigo-600 hover:text-indigo-700"
                 >
                     Users

@@ -10,11 +10,10 @@
     import TrashedMessage from '@/Shared/TrashedMessage.svelte';
     import Icon from '@/Shared/Icon.svelte';
 
-    const route = window.route;
 
-    let { organization } = $page;
+    let { organization } = $page || {};
     $: errors = $page?.errors || {};
-    $: organization = $page.organization;
+    $: organization = $page?.organization || {};
 
     let sending = false;
     let values = {
@@ -37,18 +36,18 @@
 
     function handleSubmit() {
         sending = true;
-        router.put(route('organizations.update', organization.id), values).then(() => sending = false);
+        router.put(`/organizations/${organization.id}`, values).then(() => sending = false);
     }
 
     function destroy() {
         if (confirm('Are you sure you want to delete this organization?')) {
-            router.delete(route('organizations.destroy', organization.id));
+            router.delete(`/organizations/${organization.id}`);
         }
     }
 
     function restore() {
         if (confirm('Are you sure you want to restore this organization?')) {
-            router.put(route('organizations.restore', organization.id));
+            router.put(`/organizations/${organization.id}/restore`);
         }
     }
 </script>
@@ -59,7 +58,7 @@
     <div>
         <h1 class="mb-8 font-bold text-3xl">
             <Link
-                href={route('organizations')}
+                href="/organizations"
                 class="text-indigo-600 hover:text-indigo-700"
             >
                 Organizations
@@ -198,7 +197,7 @@
                             <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
                                 <td class="border-t">
                                     <Link
-                                        href={route('contacts.edit', id)}
+                                        href={`/contacts/${id}/edit`}
                                         class="px-6 py-4 flex items-center focus:text-indigo"
                                     >
                                         {name}
@@ -215,7 +214,7 @@
                                 <td class="border-t">
                                     <Link
                                         tabindex="-1"
-                                        href={route('contacts.edit', id)}
+                                        href={`/contacts/${id}/edit`}
                                         class="px-6 py-4 flex items-center focus:text-indigo"
                                     >
                                         {city}
@@ -225,7 +224,7 @@
                                 <td class="border-t">
                                     <Link
                                         tabindex="-1"
-                                        href={route('contacts.edit', id)}
+                                        href={`/contacts/${id}/edit`}
                                         class="px-6 py-4 flex items-center focus:text-indigo"
                                     >
                                         {phone}
@@ -235,7 +234,7 @@
                                 <td class="border-t w-px">
                                     <Link
                                         tabindex="-1"
-                                        href={route('contacts.edit', id)}
+                                        href={`/contacts/${id}/edit`}
                                         class="px-4 flex items-center"
                                     >
                                         <Icon

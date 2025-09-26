@@ -6,10 +6,9 @@
     import SearchFilter from '@/Shared/SearchFilter.svelte';
     import Pagination from '@/Shared/Pagination.svelte';
 
-    const route = window.route;
 
-    $: links = $page.organizations.links;
-    $: data = $page.organizations.data;
+    $: links = $page?.organizations?.links || [];
+    $: data = $page?.organizations?.data || [];
 </script>
 
 <Helmet title="Organizations" />
@@ -23,7 +22,7 @@
 
                 <Link
                     class="btn-indigo"
-                    href={route('organizations.create')}
+                    href="/organizations/create"
                 >
                     <span>Create</span>
                     <span class="hidden md:inline"> Organization</span>
@@ -51,7 +50,7 @@
                                 <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
                                     <td class="border-t">
                                         <Link
-                                            href={route('organizations.edit', id)}
+                                            href={`/organizations/${id}/edit`}
                                             class="px-6 py-4 flex items-center focus:text-indigo-700"
                                         >
                                             {name}
@@ -68,7 +67,7 @@
                                     <td class="border-t">
                                         <Link
                                             tabindex="-1"
-                                            href={route('organizations.edit', id)}
+                                            href={`/organizations/${id}/edit`}
                                             class="px-6 py-4 flex items-center focus:text-indigo"
                                         >
                                             {city}
@@ -78,7 +77,7 @@
                                     <td class="border-t">
                                         <Link
                                             tabindex="-1"
-                                            href={route('organizations.edit', id)}
+                                            href={`/organizations/${id}/edit`}
                                             class="px-6 py-4 flex items-center focus:text-indigo"
                                         >
                                             {phone}
@@ -88,7 +87,7 @@
                                     <td class="border-t w-px">
                                         <Link
                                             tabindex="-1"
-                                            href={route('organizations.edit', id)}
+                                            href={`/organizations/${id}/edit`}
                                             class="px-4 flex items-center"
                                         >
                                             <Icon

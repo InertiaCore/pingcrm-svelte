@@ -11,10 +11,9 @@
     import TrashedMessage from '@/Shared/TrashedMessage.svelte';
     import { toFormData } from '@/utils';
 
-    const route = window.route;
 
-    let { user } = $page;
-    $: user = $page.user;
+    let { user } = $page || {};
+    $: user = $page?.user || {};
     $: errors = $page?.errors || {};
 
     let sending = false;
@@ -52,18 +51,18 @@
         // For more info check utils.jf file
         const formData = toFormData(values, 'PUT');
 
-        router.post(route('users.update', user.id), formData).then(() => sending = false);
+        router.post(`/users/${user.id}`, formData).then(() => sending = false);
     }
 
     function destroy() {
         if (confirm('Are you sure you want to delete this user?')) {
-            router.delete(route('users.destroy', user.id));
+            router.delete(`/users/${user.id}`);
         }
     }
 
     function restore() {
         if (confirm('Are you sure you want to restore this user?')) {
-            router.put(route('users.restore', user.id));
+            router.put(`/users/${user.id}/restore`);
         }
     }
 </script>
@@ -75,7 +74,7 @@
         <div class="mb-8 flex justify-start max-w-lg">
             <h1 class="font-bold text-3xl">
                 <Link
-                    href={route('users')}
+                    href="/users"
                     class="text-indigo-600 hover:text-indigo-700"
                 >
                     Users

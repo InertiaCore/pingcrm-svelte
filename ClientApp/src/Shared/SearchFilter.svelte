@@ -5,16 +5,15 @@
     import SelectInput from '@/Shared/SelectInput.svelte';
     import pickBy from 'lodash/pickBy';
 
-    let { filters } = $page;
-    $: filters = $page.filters;
+    let { filters = {} } = $page || {};
+    $: filters = $page?.filters || {};
 
-    const route = window.route;
 
     let opened = false;
     let values = {
-        role: filters.role || '', // role is used only on users page
-        search: filters.search || '',
-        trashed: filters.trashed || ''
+        role: filters?.role || '', // role is used only on users page
+        search: filters?.search || '',
+        trashed: filters?.trashed || ''
     };
 
     let prevValues;
@@ -31,12 +30,24 @@
         };
     }
 
+    let debounceTimer;
+
     $: {
-        if (prevValues) {
-            const query = Object.keys(pickBy(values)).length
-                ? pickBy(values)
-                : { remember: 'forget' };
-            router.replace(route(route().current(), query));
+        if (prevValues && JSON.stringify(prevValues) !== JSON.stringify(values)) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                const query = Object.keys(pickBy(values)).length
+                    ? pickBy(values)
+                    : { remember: 'forget' };
+                // Use the current page URL with new query parameters
+                const currentPath = window.location.pathname;
+                router.get(currentPath, query, {
+                    preserveState: true,
+                    preserveScroll: true,
+                    replace: true
+                });
+                prevValues = { ...values };
+            }, 500); // Increased to 500ms debounce for better UX
         }
     }
 
@@ -119,8 +130,7 @@
             autocomplete="off"
             type="text"
             name="search"
-            value={values.search}
-            on:change={handleChange}
+            bind:value={values.search}
             placeholder="Search…"
         />
     </div>

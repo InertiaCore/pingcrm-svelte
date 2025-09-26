@@ -6,10 +6,9 @@
     import Pagination from '@/Shared/Pagination.svelte';
     import SearchFilter from '@/Shared/SearchFilter.svelte';
 
-    const route = window.route;
 
-    $: data = $page.contacts.data;
-    $: links = $page.contacts.links;
+    $: data = $page?.contacts?.data || [];
+    $: links = $page?.contacts?.links || [];
 </script>
 
 <Helmet title="Contacts" />
@@ -21,7 +20,7 @@
         <div class="mb-6 flex justify-between items-center">
             <SearchFilter />
 
-            <Link class="btn-indigo" href={route('contacts.create')}>
+            <Link class="btn-indigo" href="/contacts/create">
                 <span>Create</span>
                 <span class="hidden md:inline"> Contact</span>
             </Link>
@@ -49,7 +48,7 @@
                             <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
                                 <td class="border-t">
                                     <Link
-                                        href={route('contacts.edit', id)}
+                                        href={`/contacts/${id}/edit`}
                                         class="px-6 py-4 flex items-center focus:text-indigo-700"
                                     >
                                         {name}
@@ -67,7 +66,7 @@
                                     <Link
                                         tabindex="1"
                                         class="px-6 py-4 flex items-center focus:text-indigo"
-                                        href={route('contacts.edit', id)}
+                                        href={`/contacts/${id}/edit`}
                                     >
                                         {organization && organization.name}
                                     </Link>
@@ -76,7 +75,7 @@
                                 <td class="border-t">
                                     <Link
                                         tabindex="-1"
-                                        href={route('contacts.edit', id)}
+                                        href={`/contacts/${id}/edit`}
                                         class="px-6 py-4 flex items-center focus:text-indigo"
                                     >
                                         {city}
@@ -86,7 +85,7 @@
                                 <td class="border-t">
                                     <Link
                                         tabindex="-1"
-                                        href={route('contacts.edit', id)}
+                                        href={`/contacts/${id}/edit`}
                                         class="px-6 py-4 flex items-center focus:text-indigo"
                                     >
                                         {phone}
@@ -96,7 +95,7 @@
                                 <td class="border-t w-px">
                                     <Link
                                         tabindex="-1"
-                                        href={route('contacts.edit', id)}
+                                        href={`/contacts/${id}/edit`}
                                         class="px-4 flex items-center"
                                     >
                                         <Icon

@@ -6,10 +6,9 @@
     import SearchFilter from '@/Shared/SearchFilter.svelte';
     import Pagination from '@/Shared/Pagination.svelte';
 
-    const route = window.route;
 
-    $: data = $page.users.data;
-    $: links = $page.users.links;
+    $: data = $page?.users?.data || [];
+    $: links = $page?.users?.links || [];
 </script>
 
 <Helmet title="Users" />
@@ -21,7 +20,7 @@
         <div class="mb-6 flex justify-between items-center">
             <SearchFilter />
 
-            <Link class="btn-indigo" href={route('users.create')}>
+            <Link class="btn-indigo" href="/users/create">
                 <span>Create</span>
                 <span class="hidden md:inline"> User</span>
             </Link>
@@ -48,7 +47,7 @@
                             <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
                                 <td class="border-t">
                                     <Link
-                                        href={route('users.edit', id)}
+                                        href={`/users/${id}/edit`}
                                         class="px-6 py-4 flex items-center focus:text-indigo-700"
                                     >
                                     {#if photo}
@@ -71,7 +70,7 @@
                                 <td class="border-t">
                                     <Link
                                         tabindex="-1"
-                                        href={route('users.edit', id)}
+                                        href={`/users/${id}/edit`}
                                         class="px-6 py-4 flex items-center focus:text-indigo"
                                     >
                                         {email}
@@ -81,7 +80,7 @@
                                 <td class="border-t">
                                     <Link
                                         tabindex="-1"
-                                        href={route('users.edit', id)}
+                                        href={`/users/${id}/edit`}
                                         class="px-6 py-4 flex items-center focus:text-indigo"
                                     >
                                         {owner ? 'Owner' : 'User'}
@@ -91,7 +90,7 @@
                                 <td class="border-t w-px">
                                     <Link
                                         tabindex="-1"
-                                        href={route('users.edit', id)}
+                                        href={`/users/${id}/edit`}
                                         class="px-4 flex items-center"
                                     >
                                         <Icon

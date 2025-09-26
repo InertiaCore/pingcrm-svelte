@@ -9,11 +9,10 @@
     import SelectInput from '@/Shared/SelectInput.svelte';
     import TrashedMessage from '@/Shared/TrashedMessage.svelte';
 
-    const route = window.route;
 
-    let { contact } = $page;
-    $: contact = $page.contact;
-    $: organizations = $page.organizations;
+    let { contact } = $page || {};
+    $: contact = $page?.contact || {};
+    $: organizations = $page?.organizations || [];
     $: errors = $page?.errors || {};
 
     let sending = false;
@@ -39,18 +38,18 @@
 
     function handleSubmit(e) {
         sending = true;
-        router.put(route('contacts.update', contact.id), values).then(() => sending = false);
+        router.put(`/contacts/${contact.id}`, values).then(() => sending = false);
     }
 
     function destroy() {
         if (confirm('Are you sure you want to delete this contact?')) {
-            router.delete(route('contacts.destroy', contact.id));
+            router.delete(`/contacts/${contact.id}`);
         }
     }
 
     function restore() {
         if (confirm('Are you sure you want to restore this contact?')) {
-            router.put(route('contacts.restore', contact.id));
+            router.put(`/contacts/${contact.id}/restore`);
         }
     }
 </script>
@@ -61,7 +60,7 @@
     <div>
         <h1 class="mb-8 font-bold text-3xl">
             <Link
-                href={route('contacts')}
+                href="/contacts"
                 class="text-indigo-600 hover:text-indigo-700"
             >
                 Contacts

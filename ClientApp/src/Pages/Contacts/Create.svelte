@@ -7,9 +7,8 @@
     import TextInput from '@/Shared/TextInput.svelte';
     import SelectInput from '@/Shared/SelectInput.svelte';
 
-    const route = window.route;
 
-    $: organizations = $page.organizations;
+    $: organizations = $page?.organizations || [];
     $: errors = $page?.errors || {};
 
     let sending = false;
@@ -36,7 +35,7 @@
 
     function handleSubmit() {
         sending = true;
-        router.post(route('contacts.store'), values).then(() => sending = false);
+        router.post('/contacts', values).then(() => sending = false);
     }
 </script>
 
@@ -46,7 +45,7 @@
     <div>
         <h1 class="mb-8 font-bold text-3xl">
             <Link
-                href={route('contacts')}
+                href="/contacts"
                 class="text-indigo-600 hover:text-indigo-700"
             >
                 Contacts

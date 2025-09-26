@@ -5,14 +5,14 @@
     $: flash = $page?.flash;
     $: errors = $page?.errors || {};
 
-    let numOfErrors = Object.keys(errors).length;
+    $: numOfErrors = Object.keys(errors || {}).length;
 
     let visible = true;
     $: (flash || errors) && (visible = true);
 </script>
 
 <div>
-    {#if flash.success && visible}
+    {#if flash?.success && visible}
         <div class="mb-8 flex items-center justify-between bg-green-500 rounded max-w-3xl">
             <div class="flex items-center">
                 <svg
@@ -24,7 +24,7 @@
                 </svg>
 
                 <div class="py-4 text-white text-sm font-medium">
-                    {flash.success}
+                    {flash?.success}
                 </div>
             </div>
 
@@ -47,7 +47,7 @@
         </div>
     {/if}
 
-    {#if (flash.error || numOfErrors > 0) && visible}
+    {#if (flash?.error || numOfErrors > 0) && visible}
         <div class="mb-8 flex items-center justify-between bg-red-500 rounded max-w-3xl">
             <div class="flex items-center">
                 <svg
@@ -60,7 +60,7 @@
                 </svg>
 
                 <div class="py-4 text-white text-sm font-medium">
-                    {flash.error && flash.error}
+                    {flash?.error && flash.error}
                     {numOfErrors === 1 && 'There is one form error'}
                     {numOfErrors > 1 && `There are ${numOfErrors} form errors.`}
                 </div>
