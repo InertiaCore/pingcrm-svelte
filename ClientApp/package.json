@@ -12,7 +12,7 @@
         "format": "eslint src --fix && prettier --write src"
     },
     "dependencies": {
-        "@inertiajs/svelte": "^2.1.7",
+        "@inertiajs/svelte": "^2.2.8",
         "axios": "^1.10.0",
         "classnames": "^2.5.1",
         "lodash": "^4.17.21",
